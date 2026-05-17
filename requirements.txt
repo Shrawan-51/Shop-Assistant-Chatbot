@@ -1,9 +1,10 @@
 ﻿streamlit
 langchain-google-genai
-google-generativeai
+google-genai
 pinecone
 langchain-pinecone
 python-dotenv
 mysql-connector-python
 pandas
 tqdm
+protobuf>=4.25.3,<6
