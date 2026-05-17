@@ -1,0 +1,1 @@
+Developed a RAG-based e-commerce assistant using Qdrant vector DB and Google Gemini LLM, implementing delta sync to keep embeddings up-to-date with MySQL catalog changes; deployed on Streamlit Cloud
