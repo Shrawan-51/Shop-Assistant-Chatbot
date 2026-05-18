@@ -51,7 +51,7 @@ system_message=(
 )
 
 def gen_answer(system_message,chat_history,prompt):
-    genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+    genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
     model=genai.GenerativeModel('gemini-2.5-flash')
 
     # append prompt to chat history
@@ -73,9 +73,9 @@ def get_relevant_chunk(query,vectorstore):
         metadata=results[0].metadata
         context=(
             f"Product Name: {metadata.get('ProductName','Not Available')}\n"
-            f"Brand: {metadata.get('Brand','Not Available')}\n"
+            f"Brand: {metadata.get('ProductBrand','Not Available')}\n"
             f"Price: {metadata.get('Price','Not Available')}\n"
-            f"Color: {metadata.get('Color','Not Available')}\n"
+            f"Color: {metadata.get('PrimaryColor','Not Available')}\n"
             f"Description: {results[0].page_content}"
         )
         return context
