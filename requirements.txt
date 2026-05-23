@@ -4,6 +4,7 @@ google-genai==1.16.1
 
 pinecone-client==5.0.1
 
+langchain-google-genai 
 python-dotenv==1.0.1
 mysql-connector-python==9.0.0
 
