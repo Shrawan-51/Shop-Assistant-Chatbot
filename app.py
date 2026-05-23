@@ -1,7 +1,7 @@
 import os
 import time
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
-import google.generativeai as genai
+from google import genai
 from pinecone import Pinecone,ServerlessSpec
 from langchain_pinecone import PineconeVectorStore
 from dotenv import load_dotenv
@@ -46,20 +46,28 @@ system_message=(
 )
 
 def gen_answer(system_message,chat_history,prompt):
-    genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-    model=genai.GenerativeModel('gemini-2.5-flash')
+    client = genai.Client(
+        api_key=os.getenv("GEMINI_API_KEY")
+    )
 
-    # append prompt to chat history
     chat_history.append(f"User: {prompt}")
 
-    # combine system message to chat history
-    full_prompt=f"{system_message}\n\n" + "\n".join(chat_history)+"\nAssistant:"
+    full_prompt = (
+        f"{system_message}\n\n"
+        + "\n".join(chat_history)
+        + "\nAssistant:"
+    )
 
-    # gen response
-    response=model.generate_content(full_prompt).text
-    chat_history.append(f"Assistant: {response}")
+    response = client.models.generate_content(
+        model="gemini-2.5-flash",
+        contents=full_prompt
+    )
 
-    return response
+    answer = response.text
+
+    chat_history.append(f"Assistant: {answer}")
+
+    return answer
 
 def get_relevant_chunk(query,vectorstore):
     results=vectorstore.similarity_search(query,k=3)
